@@ -21,6 +21,17 @@ dehydrated_ocspstaple:      "no"
 dehydrated_run_once:        "false"
 dehydrated_updatelog:       "/var/log/dehydrated.log"
 
+# Packages that need to be installed in order for dehydrated to function.
+# Change this when the ones in the target OS are named differently
+dehydrated_packages:
+  - bash
+  - curl
+  - git
+  - grep
+  - mktemp
+  - openssl
+  - sed
+
 # Update git checkout
 dehydrated_updategit:       "true"
 
