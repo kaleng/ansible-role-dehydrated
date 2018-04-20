@@ -2,7 +2,7 @@
 
 - name: Install required packages
   package:
-    name: "{{ item }}"
+    name: "{{item}}"
     state: present
   with_items: "{{ dehydrated_packages }}"
   tags:
@@ -22,7 +22,9 @@
     - installation
 
 - name: Create dehydrated directories
-  file: state=directory path={{item}}
+  file:
+    state: directory
+    path: "{{item}}"
   with_items:
     - "{{dehydrated_basedir}}"
     - "{{dehydrated_configdir}}"
@@ -36,7 +38,11 @@
     - dehydrated-dirs
 
 - name: Template dehydrated config files
-  template: src="{{item}}.j2" dest="{{dehydrated_basedir}}/{{item}}" owner=root group=root
+  template:
+    src: "{{item}}.j2"
+    dest: "{{dehydrated_basedir}}/{{item}}"
+    owner: root
+    group: root
   with_items:
     - config
     - domains.txt
@@ -46,7 +52,10 @@
     - dehydrated-domains.txt
 
 - name: Create local.sh config file
-  file: state=touch path="{{dehydrated_configdir}}/local.sh" mode=0755
+  file:
+    state: touch
+    path: "{{dehydrated_configdir}}/local.sh"
+    mode: 0755
   changed_when: false
   run_once: "{{dehydrated_run_once}}"
   tags:
@@ -54,14 +63,20 @@
     - dehydrated-local
 
 - name: Create account key and accept terms
-  command: creates="{{dehydrated_accountsdir}}/*/account_key.pem" {{dehydrated_basedir}}/dehydrated --register --accept-terms
+  command: "{{dehydrated_basedir}}/dehydrated --register --accept-terms"
+    creates: "{{dehydrated_accountsdir}}/*/account_key.pem" 
   run_once: "{{dehydrated_run_once}}"
   tags:
     - dehydrated
     - dehydrated-account
 
 - name: Enable cronjob for dehydrated
-  template: src="cronjob" dest="/etc/cron.weekly/dehydrated" owner=root group=root mode=0755
+  template:
+    src: "cronjob"
+    dest: "/etc/cron.weekly/dehydrated"
+    owner: root
+    group: root
+    mode: 0755
   when: dehydrated_cronjob|bool
   run_once: "{{dehydrated_run_once}}"
   tags:
