@@ -11,6 +11,7 @@ dehydrated_certsdir:        "{{dehydrated_basedir}}/certs"
 dehydrated_accountsdir:     "{{dehydrated_basedir}}/accounts"
 dehydrated_wellknown:       "/var/www/dehydrated"
 dehydrated_keysize:         "2048"
+dehydrated_hook_chain:      "no"
 dehydrated_renewdays:       "30"
 dehydrated_privkeyrenew:    "yes"
 dehydrated_privkeyrollover: "no"
@@ -20,6 +21,8 @@ dehydrated_lockfile:        "{{dehydrated_basedir}}/lock"
 dehydrated_ocspstaple:      "no"
 dehydrated_run_once:        "false"
 dehydrated_updatelog:       "/var/log/dehydrated.log"
+
+dehydeated_hook:            ""
 
 # Packages that need to be installed in order for dehydrated to function.
 # Change this when the ones in the target OS are named differently
